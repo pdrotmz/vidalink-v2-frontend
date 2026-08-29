@@ -1,0 +1,37 @@
+<section class="marketplace">
+  <header class="marketplace__header">
+    <div>
+      <h1>Marketplace</h1>
+      <p>Troque seus pontos por recompensas.</p>
+    </div>
+
+    <div class="marketplace__points">
+      <span>Seus pontos</span>
+      <strong>0 pts</strong>
+    </div>
+  </header>
+
+  <section class="marketplace__grid">
+    @for (reward of rewards; track reward.name) {
+      <article class="reward-card">
+        <div class="reward-card__image">
+          <span>Imagem</span>
+        </div>
+
+        <div class="reward-card__content">
+          <h2>{{ reward.name }}</h2>
+
+          <p>{{ reward.description }}</p>
+
+          <div class="reward-card__footer">
+            <strong>{{ reward.pointCost }} pts</strong>
+
+            <button type="button">
+              Resgatar
+            </button>
+          </div>
+        </div>
+      </article>
+    }
+  </section>
+</section>

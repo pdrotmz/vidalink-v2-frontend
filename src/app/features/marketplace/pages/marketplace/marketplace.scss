@@ -1,0 +1,111 @@
+.marketplace {
+  padding: 2rem;
+}
+
+.marketplace__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+
+  h1 {
+    margin: 0 0 0.5rem;
+    font-size: 2rem;
+  }
+
+  p {
+    margin: 0;
+    color: var(--color-text-secondary);
+  }
+}
+
+.marketplace__points {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+
+  span {
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+  }
+
+  strong {
+    color: var(--color-primary);
+    font-size: 1.5rem;
+  }
+}
+
+.marketplace__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.reward-card {
+  overflow: hidden;
+
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0.75rem;
+
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgb(0 0 0 / 8%);
+  }
+}
+
+.reward-card__image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 180px;
+
+  background: var(--color-background);
+  color: var(--color-text-secondary);
+}
+
+.reward-card__content {
+  padding: 1.25rem;
+
+  h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.125rem;
+  }
+
+  p {
+    margin: 0 0 1.5rem;
+    color: var(--color-text-secondary);
+  }
+}
+
+.reward-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  strong {
+    color: var(--color-primary);
+  }
+
+  button {
+    padding: 0.625rem 1rem;
+
+    border: 0;
+    border-radius: 0.5rem;
+
+    background: var(--color-primary);
+    color: var(--color-surface);
+
+    cursor: pointer;
+
+    transition: background-color 0.2s;
+
+    &:hover {
+      background: var(--color-primary-hover);
+    }
+  }
+}
