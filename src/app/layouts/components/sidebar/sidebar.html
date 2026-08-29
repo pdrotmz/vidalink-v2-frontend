@@ -1,20 +1,32 @@
-<aside>
-    <nav class="sidebar__nav">
-        <a 
-          class="sidebar__link"
-          routerLink="/"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          Home
-        </a>
+<aside class="sidebar">
+  <div class="sidebar__brand">
+    <span class="sidebar__brand-name">VidaLink</span>
+  </div>
 
-        <a 
-          class="sidebar__link"
-          routerLink="/dashboard"
-          routerLinkActive="active"
-        >
-          Dashboard
-        </a>
-    </nav>
+  <nav class="sidebar__nav">
+    <a
+      class="sidebar__link"
+      routerLink="/"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      Home
+    </a>
+
+    <a
+      class="sidebar__link"
+      routerLink="/dashboard"
+      routerLinkActive="active"
+    >
+      Dashboard
+    </a>
+
+    <a
+      class="sidebar__link"
+      routerLink="/marketplace"
+      routerLinkActive="active"
+    >
+      Marketplace
+    </a>
+  </nav>
 </aside>
