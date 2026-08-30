@@ -1,25 +1,53 @@
 <section class="dashboard">
-  <header class="dashboard__header">
-    <div>
-      <h1>Olá, seja bem-vindo!</h1>
-      <p>Acompanhe sua jornada no VidaLink.</p>
-    </div>
-  </header>
 
-  <section class="dashboard__cards">
-    <article class="dashboard-card">
-      <span class="dashboard-card__label">Pontos</span>
-      <strong class="dashboard-card__value">0</strong>
-    </article>
+  <h1>Dashboard</h1>
 
-    <article class="dashboard-card">
-      <span class="dashboard-card__label">Nível</span>
-      <strong class="dashboard-card__value">1</strong>
-    </article>
+  @if (points()) {
+    <section>
+      <h2>Pontos</h2>
+      <p>{{ points()?.balance }} pts</p>
+    </section>
+  }
 
-    <article class="dashboard-card">
-      <span class="dashboard-card__label">Badges</span>
-      <strong class="dashboard-card__value">0</strong>
-    </article>
+  @if (level()) {
+    <section>
+      <h2>Nível</h2>
+      <p>{{ level()?.level }}</p>
+      <p>{{ level()?.totalPoints }} pontos totais</p>
+    </section>
+  }
+
+  <section>
+    <h2>Badges</h2>
+
+    @if (badges.length > 0) {
+      @for (userBadge of badges(); track userBadge.id) {
+        <div>
+          <strong>{{ userBadge.badge }}</strong>
+          <span>{{ userBadge.earnedAt }}</span>
+        </div>
+      }
+    } @else {
+      <p>Nenhuma badge conquistada.</p>
+    }
   </section>
+
+  <section>
+    <h2>Transações</h2>
+
+    @if (transactions.length > 0) {
+      @for (transaction of transactions(); track transaction.id) {
+        <div>
+          <strong>
+            {{ transaction.type === 'CREDIT' ? '+' : '-' }}{{ transaction.amount }} pts
+          </strong>
+
+          <span>{{ transaction.source }}</span>
+        </div>
+      }
+    } @else {
+      <p>Nenhuma transação encontrada.</p>
+    }
+  </section>
+
 </section>
