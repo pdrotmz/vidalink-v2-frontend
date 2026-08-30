@@ -7,6 +7,7 @@ import {
 
 import { AuthService } from '../../services/auth';
 import { TokenStorageService } from '../../services/token-storage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ export class Login {
   private readonly formBuilder = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly tokenStorage = inject(TokenStorageService);
+  private readonly router = inject(Router);
 
   protected readonly loginForm = this.formBuilder.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -34,6 +36,7 @@ export class Login {
     this.authService.login(this.loginForm.getRawValue()).subscribe({
       next: (response) => {
         this.tokenStorage.save(response.token);
+        this.router.navigate(['/dashboard']);
       },
       error: (error) => {
         console.error('Failed to login', error);
