@@ -1,0 +1,57 @@
+<section class="auth-page">
+  <div class="auth-card">
+
+    <h1>Criar conta</h1>
+    <p>Cadastre-se no VidaLink.</p>
+
+    <form [formGroup]="registerForm" (ngSubmit)="submit()">
+
+      <div class="form-field">
+        <label for="name">Nome</label>
+
+        <input
+          id="name"
+          type="text"
+          formControlName="name"
+        >
+      </div>
+
+      <div class="form-field">
+        <label for="email">Email</label>
+
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+        >
+      </div>
+
+      <div class="form-field">
+        <label for="password">Senha</label>
+
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+        >
+      </div>
+
+      <div class="form-field">
+        <label for="cpf">CPF</label>
+
+        <input
+          id="cpf"
+          type="text"
+          formControlName="cpf"
+          maxlength="11"
+        >
+      </div>
+
+      <button type="submit">
+        Criar conta
+      </button>
+
+    </form>
+
+  </div>
+</section>
