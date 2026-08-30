@@ -14,7 +14,7 @@
 
   <section class="marketplace__grid">
 
-    @for (reward of rewards; track reward.id) {
+    @for (reward of rewards(); track reward.id) {
       <article class="reward-card">
 
         <div class="reward-card__image">

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 
 import { RewardService } from '../../services/reward';
 import { Reward } from '../../models/reward';
@@ -13,12 +13,12 @@ export class Marketplace {
 
   private readonly rewardService = inject(RewardService);
 
-  protected rewards: Reward[] = [];
+  protected readonly rewards = signal<Reward[]>([]);
 
   constructor() {
     this.rewardService.getRewards().subscribe({
       next: (rewards) => {
-        this.rewards = rewards;
+        this.rewards.set(rewards);
       },
       error: (error) => {
         console.error('Error fetching rewards:', error);
