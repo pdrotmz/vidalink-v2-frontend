@@ -4,6 +4,7 @@ import { AuthenticatedLayout } from './layouts/authenticated-layout/authenticate
 import { Dashboard } from './features/dashboard/pages/dashboard/dashboard';
 import { Marketplace } from './features/marketplace/pages/marketplace/marketplace';
 import { authGuard } from './core/guards/auth-guard';
+import { AssessmentPage } from './features/assessment/pages/assessment/assessment';
 
 export const routes: Routes = [
   {
@@ -39,6 +40,10 @@ export const routes: Routes = [
         path: 'marketplace',
         component: Marketplace,
       },
+      {
+        path: 'assessment',
+        component: AssessmentPage,
+    },
     ],
   },
 ];

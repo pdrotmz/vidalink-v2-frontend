@@ -1,0 +1,70 @@
+<section class="assessment">
+
+  <header class="assessment__header">
+    <h1>Assessment</h1>
+    <p>Envie seu comprovante de doação para análise.</p>
+  </header>
+
+  <section class="assessment__content">
+
+    <div class="assessment__upload">
+
+      <label for="submission-file">
+        Selecione seu PDF
+      </label>
+
+      <input
+        id="submission-file"
+        type="file"
+        accept="application/pdf"
+        (change)="onFileSelected($event)"
+      >
+
+      @if (selectedFile()) {
+        <p>
+          Arquivo selecionado:
+          <strong>{{ selectedFile()?.name }}</strong>
+        </p>
+      }
+
+      @if (error()) {
+        <p>
+          {{ error() }}
+        </p>
+      }
+
+      <button
+        type="button"
+        [disabled]="!selectedFile() || loading()"
+        (click)="sendSubmission()"
+      >
+        @if (loading()) {
+          Enviando...
+        } @else {
+          Enviar avaliação
+        }
+      </button>
+
+    </div>
+
+    @if (submission()) {
+      <div class="assessment__result">
+
+        <h2>Submission enviada</h2>
+
+        <p>
+          Status:
+          <strong>{{ submission()?.status }}</strong>
+        </p>
+
+        <p>
+          Enviada em:
+          {{ submission()?.sentTime }}
+        </p>
+
+      </div>
+    }
+
+  </section>
+
+</section>
