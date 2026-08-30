@@ -1,0 +1,36 @@
+<section class="auth-page">
+  <div class="auth-card">
+
+    <h1>Entrar</h1>
+    <p>Acesse sua conta VidaLink.</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="submit()">
+
+      <div class="form-field">
+        <label for="email">Email</label>
+
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+        >
+      </div>
+
+      <div class="form-field">
+        <label for="password">Senha</label>
+
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+        >
+      </div>
+
+      <button type="submit">
+        Entrar
+      </button>
+
+    </form>
+
+  </div>
+</section>

@@ -1,4 +1,5 @@
 <section class="marketplace">
+
   <header class="marketplace__header">
     <div>
       <h1>Marketplace</h1>
@@ -12,8 +13,10 @@
   </header>
 
   <section class="marketplace__grid">
-    @for (reward of rewards; track reward.name) {
+
+    @for (reward of rewards; track reward.id) {
       <article class="reward-card">
+
         <div class="reward-card__image">
           <span>Imagem</span>
         </div>
@@ -31,7 +34,10 @@
             </button>
           </div>
         </div>
+
       </article>
     }
+
   </section>
+
 </section>
