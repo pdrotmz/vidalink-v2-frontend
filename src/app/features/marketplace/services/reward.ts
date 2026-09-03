@@ -13,4 +13,11 @@ export class RewardService {
     getRewards(): Observable<Reward[]> {
         return this.http.get<Reward[]>('/api/rewards');
     }
+
+    getRewardImage(id: string): Observable<Blob> {
+        return this.http.get(
+        `/api/rewards/id/${id}/image`,
+        { responseType: 'blob' }
+    );
+  }
 }

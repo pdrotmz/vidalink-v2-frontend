@@ -1,40 +1,40 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+  import { Injectable, inject } from '@angular/core';
+  import { HttpClient } from '@angular/common/http';
+  import { Observable } from 'rxjs';
 
-import { UserPointsResponse } from '../models/user-points-response';
-import { UserLevelResponse } from '../models/user-level-response';
-import { UserBadgeResponse } from '../models/user-badge-response';
-import { PointTransactionResponse } from '../models/point-transaction-response';
+  import { UserPointsResponse } from '../models/user-points-response';
+  import { UserLevelResponse } from '../models/user-level-response';
+  import { UserBadgeResponse } from '../models/user-badge-response';
+  import { PointTransactionResponse } from '../models/point-transaction-response';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class DashboardService {
+  @Injectable({
+    providedIn: 'root',
+  })
+  export class DashboardService {
 
-  private readonly http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
-  getPoints(): Observable<UserPointsResponse> {
-    return this.http.get<UserPointsResponse>(
-      '/api/points/me'
-    );
+    getPoints(): Observable<UserPointsResponse> {
+      return this.http.get<UserPointsResponse>(
+        '/api/points/me'
+      );
+    }
+
+    getLevel(): Observable<UserLevelResponse> {
+      return this.http.get<UserLevelResponse>(
+        '/api/points/me/level'
+      );
+    }
+
+    getBadges(): Observable<UserBadgeResponse[]> {
+      return this.http.get<UserBadgeResponse[]>(
+        '/api/points/me/badges'
+      );
+    }
+
+    getTransactions(): Observable<PointTransactionResponse[]> {
+      return this.http.get<PointTransactionResponse[]>(
+        '/api/points/me/transactions'
+      );
+    }
   }
-
-  getLevel(): Observable<UserLevelResponse> {
-    return this.http.get<UserLevelResponse>(
-      '/api/points/me/level'
-    );
-  }
-
-  getBadges(): Observable<UserBadgeResponse[]> {
-    return this.http.get<UserBadgeResponse[]>(
-      '/api/points/me/badges'
-    );
-  }
-
-  getTransactions(): Observable<PointTransactionResponse[]> {
-    return this.http.get<PointTransactionResponse[]>(
-      '/api/points/me/transactions'
-    );
-  }
-}

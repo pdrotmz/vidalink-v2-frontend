@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import { HlmCard } from '@spartan-ng/helm/card';
 
 import { DashboardService } from '../../services/dashboard';
 import { UserPointsResponse } from '../../models/user-points-response';
@@ -8,7 +9,7 @@ import { PointTransactionResponse } from '../../models/point-transaction-respons
 
 @Component({
   selector: 'app-dashboard',
-  imports: [],
+  imports: [HlmCard],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss',
 })

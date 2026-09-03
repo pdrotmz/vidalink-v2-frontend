@@ -1,19 +1,29 @@
 <section class="dashboard">
 
   <header class="dashboard__header">
-
     <div>
       <h1>Olá, seja bem-vindo!</h1>
       <p>Acompanhe sua jornada no VidaLink.</p>
     </div>
-
   </header>
 
   <section class="dashboard__cards">
 
-    <article class="dashboard-card">
+    <article class="dashboard-card" hlmCard>
 
-      <span class="dashboard-card__label">Pontos</span>
+      <div class="dashboard-card__icon">
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="8" />
+          <path d="M12 8v8M9.5 10.5h4a1.5 1.5 0 0 1 0 3h-4" />
+        </svg>
+      </div>
+
+      <span class="dashboard-card__label">
+        Pontos
+      </span>
 
       <strong class="dashboard-card__value">
         {{ points()?.balance ?? 0 }}
@@ -21,9 +31,20 @@
 
     </article>
 
-    <article class="dashboard-card">
+    <article class="dashboard-card" hlmCard>
 
-      <span class="dashboard-card__label">Nível</span>
+      <div class="dashboard-card__icon">
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path d="M12 3 14.5 8l5.5.8-4 3.9.9 5.5-4.9-2.6-4.9 2.6.9-5.5-4-3.9L9.5 8 12 3Z" />
+        </svg>
+      </div>
+
+      <span class="dashboard-card__label">
+        Nível
+      </span>
 
       <strong class="dashboard-card__value">
         {{ level()?.level ?? 'BEGINNER' }}
@@ -31,9 +52,20 @@
 
     </article>
 
-    <article class="dashboard-card">
+    <article class="dashboard-card" hlmCard>
 
-      <span class="dashboard-card__label">Badges</span>
+      <div class="dashboard-card__icon">
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path d="M12 3 14.8 8.2 20 11l-5.2 2.8L12 19l-2.8-5.2L4 11l5.2-2.8L12 3Z" />
+        </svg>
+      </div>
+
+      <span class="dashboard-card__label">
+        Badges
+      </span>
 
       <strong class="dashboard-card__value">
         {{ badges().length }}

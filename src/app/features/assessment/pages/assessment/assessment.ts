@@ -1,15 +1,18 @@
 import { Component, inject, signal } from '@angular/core';
+import { HlmBadge } from '@spartan-ng/helm/badge';
+import { HlmButton } from '@spartan-ng/helm/button';
+import { HlmCard } from '@spartan-ng/helm/card';
 import { Assessment } from '../../services/assessment';
 import { Submission } from '../../models/submission';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-assessment',
-  imports: [],
+  imports: [DatePipe, HlmBadge, HlmButton, HlmCard],
   templateUrl: './assessment.html',
   styleUrl: './assessment.scss',
 })
 export class AssessmentPage {
-
   private readonly assessmentService = inject(Assessment);
 
   protected readonly selectedFile = signal<File | null>(null);
@@ -55,11 +58,11 @@ export class AssessmentPage {
     this.error.set(null);
 
     this.assessmentService.sendSubmission(file).subscribe({
-      next: (submission) => {
+      next: submission => {
         this.submission.set(submission);
         this.loading.set(false);
       },
-      error: (error) => {
+      error: error => {
         console.error('Error sending submission:', error);
         this.error.set('Não foi possível enviar a avaliação.');
         this.loading.set(false);
