@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { CreateRewardRequest } from '../models/create-reward-request';
 import { UpdateRewardRequest } from '../models/update-reward-request';
 import { Reward } from '../models/reward';
-
+import { environmentProd } from '../../../../environments/environment.prod';
 @Injectable({
   providedIn: 'root',
 })
@@ -13,23 +13,23 @@ export class RewardAdminService {
   private readonly http = inject(HttpClient);
 
   getAll(): Observable<Reward[]> {
-    return this.http.get<Reward[]>('/api/rewards');
+    return this.http.get<Reward[]>(`${environmentProd.apiUrl}/api/rewards`);
   }
 
   getById(id: string): Observable<Reward> {
-    return this.http.get<Reward>(`/api/rewards/id/${id}`);
+    return this.http.get<Reward>(`${environmentProd.apiUrl}/api/rewards/id/${id}`);
   }
 
   getImage(id: string): Observable<Blob> {
     return this.http.get(
-      `/api/rewards/id/${id}/image`,
+      `${environmentProd.apiUrl}/api/rewards/id/${id}/image`,
       { responseType: 'blob' }
     );
   }
 
   search(keyword: string): Observable<Reward[]> {
     return this.http.get<Reward[]>(
-      `/api/rewards/search?keyword=${encodeURIComponent(keyword)}`
+      `${environmentProd.apiUrl}/api/rewards/search?keyword=${encodeURIComponent(keyword)}`
     );
   }
 
@@ -49,7 +49,7 @@ export class RewardAdminService {
     formData.append('image', image);
 
     return this.http.post<Reward>(
-      '/api/rewards/create',
+      `${environmentProd.apiUrl}/api/rewards/create`,
       formData
     );
   }
@@ -59,7 +59,7 @@ export class RewardAdminService {
     reward: UpdateRewardRequest
   ): Observable<Reward> {
     return this.http.patch<Reward>(
-      `/api/rewards/update/${id}`,
+      `${environmentProd.apiUrl}/api/rewards/update/${id}`,
       reward
     );
   }
@@ -70,14 +70,14 @@ export class RewardAdminService {
     formData.append('image', image);
 
     return this.http.patch<Reward>(
-      `/api/rewards/id/${id}/image`,
+      `${environmentProd.apiUrl}/api/rewards/id/${id}/image`,
       formData
     );
   }
 
   deactivate(id: string): Observable<void> {
     return this.http.patch<void>(
-      `/api/rewards/id/${id}/deactivate`,
+      `${environmentProd.apiUrl}/api/rewards/id/${id}/deactivate`,
       {}
     );
   }

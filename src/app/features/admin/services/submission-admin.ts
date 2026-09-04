@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Submission, ValidationStatus } from '../models/submission';
-
+import { environmentProd } from '../../../../environments/environment.prod';
 @Injectable({
   providedIn: 'root',
 })
@@ -11,32 +11,32 @@ export class SubmissionAdminService {
   private readonly http = inject(HttpClient);
 
   getAll(): Observable<Submission[]> {
-    return this.http.get<Submission[]>('/api/submissions');
+    return this.http.get<Submission[]>(`${environmentProd.apiUrl}/api/submissions`);
   }
 
   getByStatus(status: ValidationStatus): Observable<Submission[]> {
     return this.http.get<Submission[]>(
-      `/api/submissions/status?status=${status}`
+      `${environmentProd.apiUrl}/api/submissions/status?status=${status}`
     );
   }
 
   approve(id: string): Observable<void> {
     return this.http.patch<void>(
-      `/api/submissions/id/status/${id}/approve`,
+      `${environmentProd.apiUrl}/api/submissions/id/status/${id}/approve`,
       {}
     );
   }
 
   reject(id: string): Observable<void> {
     return this.http.patch<void>(
-      `/api/submissions/id/status/${id}/reject`,
+      `${environmentProd.apiUrl}/api/submissions/id/status/${id}/reject`,
       {}
     );
   }
 
   delete(id: string): Observable<void> {
     return this.http.delete<void>(
-    `/api/submissions/id/delete/${id}`
+      `${environmentProd.apiUrl}/api/submissions/id/delete/${id}`
     );
   }
 }
