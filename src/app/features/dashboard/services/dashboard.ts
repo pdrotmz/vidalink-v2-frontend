@@ -6,7 +6,7 @@
   import { UserLevelResponse } from '../models/user-level-response';
   import { UserBadgeResponse } from '../models/user-badge-response';
   import { PointTransactionResponse } from '../models/point-transaction-response';
-
+  import { environmentProd } from '../../../../environments/environment.prod';
   @Injectable({
     providedIn: 'root',
   })
@@ -16,25 +16,25 @@
 
     getPoints(): Observable<UserPointsResponse> {
       return this.http.get<UserPointsResponse>(
-        '/api/points/me'
+        `${environmentProd.apiUrl}/api/points/me`
       );
     }
 
     getLevel(): Observable<UserLevelResponse> {
       return this.http.get<UserLevelResponse>(
-        '/api/points/me/level'
+        `${environmentProd.apiUrl}/api/points/me/level`
       );
     }
 
     getBadges(): Observable<UserBadgeResponse[]> {
       return this.http.get<UserBadgeResponse[]>(
-        '/api/points/me/badges'
+        `${environmentProd.apiUrl}/api/points/me/badges`
       );
     }
 
     getTransactions(): Observable<PointTransactionResponse[]> {
       return this.http.get<PointTransactionResponse[]>(
-        '/api/points/me/transactions'
+        `${environmentProd.apiUrl}/api/points/me/transactions`
       );
     }
   }

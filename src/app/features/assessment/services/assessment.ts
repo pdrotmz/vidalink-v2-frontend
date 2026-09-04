@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Submission } from '../models/submission';
-
+import { environmentProd } from '../../../../environments/environment.prod';
 @Injectable({
   providedIn: 'root',
 })
@@ -17,14 +17,14 @@ export class Assessment {
     formData.append('file', file);
 
     return this.http.post<Submission>(
-      '/api/submissions/send',
+      `${environmentProd.apiUrl}/api/submissions/send`,
       formData
     );
   }
 
   getMySubmissions(userId: string): Observable<Submission[]> {
     return this.http.get<Submission[]>(
-      `/api/submissions/id/user/${userId}`
+      `${environmentProd.apiUrl}/api/submissions/id/user/${userId}`
     );
   }
 }
