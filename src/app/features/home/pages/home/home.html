@@ -1,3 +1,98 @@
-<p>home works!</p>
-<h1>VidaLink!</h1>
-<p>Frontend em construção.</p>
+<section class="home">
+  <div class="home__hero">
+    <div class="home__hero-content">
+      <span class="home__eyebrow">
+        VIDA + LINK
+      </span>
+
+      <h1>
+        Sua saúde,
+        <span>sua jornada.</span>
+      </h1>
+
+      <p>
+        Cuide da sua saúde, acompanhe seu progresso e
+        transforme sua jornada em conquistas com o VidaLink.
+      </p>
+
+      <div class="home__actions">
+        <a routerLink="/dashboard">
+          <button hlmBtn type="button">
+            Ver meu dashboard
+          </button>
+        </a>
+
+        <a
+          routerLink="/assessment"
+          class="home__secondary-action"
+        >
+          Enviar Comprovante
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <section class="home__features">
+    <div class="home__section-header">
+      <h2>O que você pode fazer</h2>
+
+      <p>
+        Tenha tudo que precisa para acompanhar sua jornada
+        em um só lugar.
+      </p>
+    </div>
+
+    <div class="home__cards">
+      <article hlmCard class="home-card">
+        <div class="home-card__icon">
+          📊
+        </div>
+
+        <h3>Acompanhe seu progresso</h3>
+
+        <p>
+          Consulte seus pontos, nível, badges e histórico
+          de atividades.
+        </p>
+
+        <a routerLink="/dashboard">
+          Ver dashboard →
+        </a>
+      </article>
+
+      <article hlmCard class="home-card">
+        <div class="home-card__icon">
+          📋
+        </div>
+
+        <h3>Envie seu comprovante</h3>
+
+        <p>
+          Envie seu comprovante de doação de sangue e acompanhe o
+          processo diretamente pelo VidaLink.
+        </p>
+
+        <a routerLink="/assessment">
+          Enviar avaliação →
+        </a>
+      </article>
+
+      <article hlmCard class="home-card">
+        <div class="home-card__icon">
+          🎁
+        </div>
+
+        <h3>Resgate recompensas</h3>
+
+        <p>
+          Utilize seus pontos para resgatar recompensas
+          disponíveis no marketplace.
+        </p>
+
+        <a routerLink="/marketplace">
+          Explorar marketplace →
+        </a>
+      </article>
+    </div>
+  </section>
+</section>

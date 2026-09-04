@@ -7,4 +7,5 @@ export interface PointTransactionResponse {
   amount: number;
   type: PointTransactionType;
   source: PointTransactionSource;
+  createdAt: string;
 }

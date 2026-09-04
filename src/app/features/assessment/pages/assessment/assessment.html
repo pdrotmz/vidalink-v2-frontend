@@ -1,70 +1,241 @@
 <section class="assessment">
-
   <header class="assessment__header">
-    <h1>Assessment</h1>
-    <p>Envie seu comprovante de doação para análise.</p>
+    <div>
+      <h1>Assessment</h1>
+      <p>
+        Envie seu comprovante de doação para análise.
+      </p>
+    </div>
   </header>
 
   <section class="assessment__content">
 
-    <div class="assessment__upload">
+    <div class="assessment__upload" hlmCard>
 
-      <label for="submission-file">
-        Selecione seu PDF
+      <div class="assessment__upload-header">
+        <div>
+          <h2>Enviar comprovante</h2>
+          <p>
+            O arquivo deve estar em formato PDF e ter no máximo 3 MB.
+          </p>
+        </div>
+      </div>
+
+      <label
+        class="assessment__dropzone"
+        for="submission-file"
+      >
+        <div class="assessment__dropzone-icon">
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="M12 16V4" />
+            <path d="m7 9 5-5 5 5" />
+            <path d="M5 20h14" />
+          </svg>
+        </div>
+
+        <div class="assessment__dropzone-content">
+          <strong>
+            Clique para selecionar seu comprovante
+          </strong>
+
+          <span>
+            Apenas arquivos PDF de até 3 MB
+          </span>
+        </div>
+
+        <input
+          id="submission-file"
+          type="file"
+          accept="application/pdf"
+          (change)="onFileSelected($event)"
+        />
       </label>
 
-      <input
-        id="submission-file"
-        type="file"
-        accept="application/pdf"
-        (change)="onFileSelected($event)"
-      >
-
       @if (selectedFile()) {
-        <p>
-          Arquivo selecionado:
-          <strong>{{ selectedFile()?.name }}</strong>
-        </p>
+        <div class="assessment__selected-file">
+          <div class="assessment__file-icon">
+            <svg
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z" />
+              <path d="M14 2v6h6" />
+            </svg>
+          </div>
+
+          <div class="assessment__file-info">
+            <strong>{{ selectedFile()?.name }}</strong>
+
+            <span>
+              {{ (selectedFile()!.size / 1024 / 1024).toFixed(2) }} MB
+            </span>
+          </div>
+        </div>
       }
 
       @if (error()) {
-        <p>
-          {{ error() }}
-        </p>
+        <div class="assessment__error" role="alert">
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="9" />
+            <path d="M12 8v4" />
+            <path d="M12 16h.01" />
+          </svg>
+
+          <span>{{ error() }}</span>
+        </div>
       }
 
-      <button
-        type="button"
-        [disabled]="!selectedFile() || loading()"
-        (click)="sendSubmission()"
-      >
-        @if (loading()) {
-          Enviando...
-        } @else {
-          Enviar avaliação
-        }
-      </button>
-
+      <div class="assessment__actions">
+        <button
+          hlmBtn
+          type="button"
+          [disabled]="!selectedFile() || loading()"
+          (click)="sendSubmission()"
+        >
+          @if (loading()) {
+            Enviando...
+          } @else {
+            Enviar avaliação
+          }
+        </button>
+      </div>
     </div>
 
     @if (submission()) {
-      <div class="assessment__result">
+      <div class="assessment__result" hlmCard>
+        <div class="assessment__result-header">
+          <div>
+            <h2>Comprovante enviado</h2>
+            <p>
+              Seu comprovante foi enviado para análise.
+            </p>
+          </div>
 
-        <h2>Submission enviada</h2>
+          <span hlmBadge>
+            {{ submission()?.status }}
+          </span>
+        </div>
 
-        <p>
-          Status:
-          <strong>{{ submission()?.status }}</strong>
-        </p>
+        <div class="assessment__result-info">
+          <div>
+            <span>Status</span>
+            <strong>{{ submission()?.status }}</strong>
+          </div>
 
-        <p>
-          Enviada em:
-          {{ submission()?.sentTime }}
-        </p>
-
+          <div>
+            <span>Enviado em</span>
+            <strong>{{ submission()?.sentTime | date:'dd/MM/yyyy HH:mm' }}</strong>
+          </div>
+        </div>
       </div>
     }
 
-  </section>
+    <section class="assessment__history" hlmCard>
 
+      <div class="assessment__history-header">
+        <div>
+          <span class="assessment__eyebrow">Histórico</span>
+
+          <h2>Minhas avaliações</h2>
+
+          <p>
+            Acompanhe o status dos seus comprovantes enviados.
+          </p>
+        </div>
+
+        <span class="assessment__count">
+          {{ submissions().length }}
+        </span>
+      </div>
+
+      @if (loadingSubmissions()) {
+
+        <div class="assessment__loading">
+          <span>Carregando avaliações...</span>
+        </div>
+
+      } @else if (submissions().length > 0) {
+
+        <div class="assessment__submissions">
+
+          @for (submission of submissions(); track submission.id) {
+
+            <article class="submission">
+
+              <div class="submission__icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"
+                  />
+                  <path d="M14 2v6h6" />
+                </svg>
+              </div>
+
+              <div class="submission__content">
+
+                <strong>Comprovante de doação</strong>
+
+                <span>
+                  Enviado em
+                  {{ submission.sentTime | date:'dd/MM/yyyy HH:mm' }}
+                </span>
+
+              </div>
+
+              <span
+                class="submission__status"
+                [class.submission__status--pending]="submission.status === 'PENDING'"
+                [class.submission__status--approved]="submission.status === 'APPROVED'"
+                [class.submission__status--rejected]="submission.status === 'REJECTED'"
+              >
+                @switch (submission.status) {
+
+                  @case ('PENDING') {
+                    Em análise
+                  }
+
+                  @case ('APPROVED') {
+                    Aprovada
+                  }
+
+                  @case ('REJECTED') {
+                    Rejeitada
+                  }
+
+                }
+              </span>
+
+            </article>
+
+          }
+
+        </div>
+
+      } @else {
+
+        <div class="assessment__empty">
+
+          <div class="assessment__empty-icon">
+            📄
+          </div>
+
+          <strong>Nenhuma avaliação enviada</strong>
+
+          <p>
+            Envie seu primeiro comprovante de doação para começar.
+          </p>
+
+        </div>
+
+      }
+
+    </section>
+
+  </section>
 </section>

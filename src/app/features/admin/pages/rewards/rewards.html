@@ -1,0 +1,273 @@
+<section class="rewards">
+  <header class="rewards__header">
+    <div>
+      <span class="rewards__eyebrow">Marketplace</span>
+
+      <h1>Recompensas</h1>
+
+      <p>
+        Gerencie as recompensas disponíveis no VidaLink.
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="rewards__create"
+      (click)="openCreateForm()"
+    >
+      + Nova recompensa
+    </button>
+  </header>
+
+  @if (showCreateForm()) {
+  <section class="reward-form">
+    <header class="reward-form__header">
+      <div>
+        <h2>{{ editingReward() ? 'Editar recompensa' : 'Nova recompensa' }}</h2>
+        <p>Cadastre uma nova recompensa no marketplace.</p>
+      </div>
+
+      <button
+        type="button"
+        class="reward-form__close"
+        [disabled]="creating()"
+        (click)="closeCreateForm()"
+      >
+        ×
+      </button>
+    </header>
+
+    <form
+      class="reward-form__body"
+      [formGroup]="rewardForm"
+      (ngSubmit)="editingReward() ? updateReward() : createReward()"
+    >
+      <div class="reward-form__field">
+        <label for="reward-name">
+          Nome
+        </label>
+
+        <input
+          id="reward-name"
+          type="text"
+          formControlName="name"
+          placeholder="Ex.: Gift Card"
+        />
+      </div>
+
+      <div class="reward-form__field">
+        <label for="reward-description">
+          Descrição
+        </label>
+
+        <textarea
+          id="reward-description"
+          rows="4"
+          formControlName="description"
+          placeholder="Descreva a recompensa..."
+        ></textarea>
+      </div>
+
+      <div class="reward-form__row">
+        <div class="reward-form__field">
+          <label for="reward-point-cost">
+            Custo em pontos
+          </label>
+
+          <input
+            id="reward-point-cost"
+            type="number"
+            min="1"
+            formControlName="pointCost"
+          />
+        </div>
+
+        <div class="reward-form__field">
+          <label for="reward-stock">
+            Estoque
+          </label>
+
+          <input
+            id="reward-stock"
+            type="number"
+            min="1"
+            formControlName="stock"
+          />
+        </div>
+      </div>
+
+      <div class="reward-form__field">
+        <label for="reward-image">
+          Imagem
+        </label>
+
+        <input
+          id="reward-image"
+          type="file"
+          accept="image/png,image/jpeg,image/webp"
+          (change)="onImageSelected($event)"
+        />
+
+        @if (editingReward() && selectedImage()) {
+          <button
+            type="button"
+            class="reward-form__image-submit"
+            [disabled]="updatingImage()"
+            (click)="updateRewardImage()"
+          >
+            @if (updatingImage()) {
+              Atualizando imagem...
+            } @else {
+              Alterar imagem
+            }
+          </button>
+        }
+
+        @if (selectedImage()) {
+          <span class="reward-form__file">
+            {{ selectedImage()!.name }}
+          </span>
+        }
+      </div>
+
+      <div class="reward-form__actions">
+        <button
+          type="button"
+          class="reward-form__cancel"
+          [disabled]="creating()"
+          (click)="closeCreateForm()"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="submit"
+          class="reward-form__submit"
+          [disabled]="creating() || updating()"
+        >
+          @if (creating()) {
+            Criando...
+          } @else if (updating()) {
+            Salvando...
+          } @else if (editingReward()) {
+            Salvar alterações
+          } @else {
+            Criar recompensa
+          }
+        </button>
+      </div>
+    </form>
+    @if (editingReward() && selectedImage()) {
+    <div class="reward-form__image-actions">
+      <button
+        type="button"
+        class="reward-form__image-submit"
+        [disabled]="updatingImage()"
+        (click)="updateRewardImage()"
+      >
+        @if (updatingImage()) {
+          Atualizando imagem...
+        } @else {
+          Alterar imagem
+        }
+      </button>
+    </div>
+  }
+  </section>
+}
+
+  @if (errorMessage()) {
+    <div class="rewards__feedback" role="alert">
+      {{ errorMessage() }}
+    </div>
+  }
+
+  @if (loading()) {
+    <section class="rewards__grid">
+      @for (item of [1, 2, 3, 4]; track item) {
+        <article class="reward-card reward-card--loading">
+          <div class="reward-card__image"></div>
+
+          <div class="reward-card__content">
+            <div class="reward-card__skeleton reward-card__skeleton--title"></div>
+            <div class="reward-card__skeleton reward-card__skeleton--text"></div>
+            <div class="reward-card__skeleton reward-card__skeleton--text"></div>
+          </div>
+        </article>
+      }
+    </section>
+  } @else if (rewards().length === 0) {
+    <section class="rewards__empty">
+      <div class="rewards__empty-icon">
+        🎁
+      </div>
+
+      <h2>Nenhuma recompensa encontrada</h2>
+
+      <p>
+        Ainda não existem recompensas cadastradas.
+      </p>
+    </section>
+  } @else {
+    <section class="rewards__grid">
+      @for (reward of rewards(); track reward.id) {
+        <article class="reward-card">
+          <div class="reward-card__image-wrapper">
+            <img
+              [src]="imageUrl(reward)"
+              [alt]="reward.name"
+              class="reward-card__image"
+            />
+
+            <span
+              class="reward-card__status"
+              [class.reward-card__status--inactive]="!reward.isActive"
+            >
+              {{ statusLabel(reward) }}
+            </span>
+          </div>
+
+          <div class="reward-card__content">
+            <h2>{{ reward.name }}</h2>
+
+            <p>
+              {{ reward.description }}
+            </p>
+
+            <div class="reward-card__details">
+              <span>
+                <strong>{{ reward.pointCost }}</strong>
+                pontos
+              </span>
+
+              <span>
+                <strong>{{ reward.stock }}</strong>
+                em estoque
+              </span>
+            </div>
+
+            <div class="reward-card__actions">
+              <button type="button" (click)="openEditForm(reward)">
+                Editar
+              </button>
+
+              @if (reward.isActive) {
+                <button
+                  type="button"
+                  [disabled]="deactivatingId() === reward.id"
+                  (click)="deactivateReward(reward)"
+                >
+                  @if (deactivatingId() === reward.id) {
+                    Desativando...
+                  } @else {
+                    Desativar
+                  }
+                </button>
+              }
+            </div>
+          </div>
+        </article>
+      }
+    </section>
+  }
+</section>

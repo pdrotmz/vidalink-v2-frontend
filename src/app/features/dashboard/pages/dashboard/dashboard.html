@@ -1,45 +1,316 @@
 <section class="dashboard">
 
   <header class="dashboard__header">
-
     <div>
-      <h1>Olá, seja bem-vindo!</h1>
-      <p>Acompanhe sua jornada no VidaLink.</p>
-    </div>
+      <span class="dashboard__eyebrow">Minha jornada</span>
 
+      <h1>Olá, seja bem-vindo! 👋</h1>
+
+      <p>
+        Acompanhe seu progresso e continue sua jornada no VidaLink.
+      </p>
+    </div>
   </header>
 
   <section class="dashboard__cards">
 
-    <article class="dashboard-card">
+    <article class="dashboard-card" hlmCard>
+      <div class="dashboard-card__icon">
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="8" />
+          <path d="M12 8v8M9.5 10.5h4a1.5 1.5 0 0 1 0 3h-4" />
+        </svg>
+      </div>
 
-      <span class="dashboard-card__label">Pontos</span>
+      <span class="dashboard-card__label">
+        Pontos
+      </span>
 
       <strong class="dashboard-card__value">
         {{ points()?.balance ?? 0 }}
       </strong>
 
+      <span class="dashboard-card__description">
+        Pontos disponíveis
+      </span>
     </article>
 
-    <article class="dashboard-card">
+    <article class="dashboard-card" hlmCard>
+      <div class="dashboard-card__icon">
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path d="M12 3 14.5 8l5.5.8-4 3.9.9 5.5-4.9-2.6-4.9 2.6.9-5.5-4-3.9L9.5 8 12 3Z" />
+        </svg>
+      </div>
 
-      <span class="dashboard-card__label">Nível</span>
+      <span class="dashboard-card__label">
+        Nível
+      </span>
 
       <strong class="dashboard-card__value">
-        {{ level()?.level ?? 'BEGINNER' }}
+        {{ level() ? levelLabel(level()!.level) : 'Iniciante' }}
       </strong>
 
+      <span class="dashboard-card__description">
+        {{ level()?.totalPoints ?? 0 }} pontos acumulados
+      </span>
     </article>
 
-    <article class="dashboard-card">
+    <article class="dashboard-card" hlmCard>
+      <div class="dashboard-card__icon">
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path d="M12 3 14.8 8.2 20 11l-5.2 2.8L12 19l-2.8-5.2L4 11l5.2-2.8L12 3Z" />
+        </svg>
+      </div>
 
-      <span class="dashboard-card__label">Badges</span>
+      <span class="dashboard-card__label">
+        Badges
+      </span>
 
       <strong class="dashboard-card__value">
         {{ badges().length }}
       </strong>
 
+      <span class="dashboard-card__description">
+        Conquistas desbloqueadas
+      </span>
     </article>
+
+  </section>
+
+  <section class="dashboard__main">
+
+    <article class="dashboard-panel dashboard-panel--level" hlmCard>
+
+      <div class="dashboard-panel__header">
+        <div>
+          <span class="dashboard-panel__eyebrow">
+            Seu progresso
+          </span>
+
+          <h2>
+            {{ level() ? levelLabel(level()!.level) : 'Iniciante' }}
+          </h2>
+        </div>
+
+        @if (level()) {
+          <span class="dashboard-panel__level">
+            Nível {{ level()!.level }}
+          </span>
+        }
+      </div>
+
+      <div class="level-progress">
+
+        <div class="level-progress__labels">
+          <span>
+            {{ level()?.totalPoints ?? 0 }} pontos
+          </span>
+
+          @if (nextLevelPoints() !== null) {
+            <span>
+              {{ nextLevelPoints() }} pontos
+            </span>
+          } @else {
+            <span>
+              Máximo
+            </span>
+          }
+        </div>
+
+        <div
+          class="level-progress__bar"
+          role="progressbar"
+          [attr.aria-valuenow]="levelProgress()"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        >
+          <div
+            class="level-progress__fill"
+            [style.width.%]="levelProgress()"
+          ></div>
+        </div>
+
+        @if (nextLevel()) {
+          <p class="level-progress__message">
+            Faltam
+            <strong>{{ pointsToNextLevel() }} pontos</strong>
+            para alcançar
+            <strong>{{ levelLabel(nextLevel()!) }}</strong>.
+          </p>
+        } @else {
+          <p class="level-progress__message">
+            🏆 Você alcançou o nível máximo!
+          </p>
+        }
+
+      </div>
+
+    </article>
+
+    <article class="dashboard-panel" hlmCard>
+
+      <div class="dashboard-panel__header">
+        <div>
+          <span class="dashboard-panel__eyebrow">
+            Conquistas
+          </span>
+
+          <h2>Seus badges</h2>
+        </div>
+
+        <span class="dashboard-panel__count">
+          {{ badges().length }}
+        </span>
+      </div>
+
+      @if (badges().length > 0) {
+
+        <div class="badges">
+
+          @for (userBadge of badges(); track userBadge.id) {
+
+            <div class="badge">
+
+              <div class="badge__icon">
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <path d="M12 3 14.8 8.2 20 11l-5.2 2.8L12 19l-2.8-5.2L4 11l5.2-2.8L12 3Z" />
+                </svg>
+              </div>
+
+              <div class="badge__content">
+                <strong>
+                  {{ badgeLabel(userBadge.badge) }}
+                </strong>
+
+                <span>
+                  Conquistado em
+                  {{ formatTransactionDate(userBadge.earnedAt) }}
+                </span>
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+      } @else {
+
+        <div class="dashboard-empty">
+          <div class="dashboard-empty__icon">
+            🏅
+          </div>
+
+          <strong>Nenhum badge ainda</strong>
+
+          <p>
+            Continue participando para desbloquear suas primeiras conquistas.
+          </p>
+        </div>
+
+      }
+
+    </article>
+
+  </section>
+
+  <section class="dashboard-panel dashboard-panel--transactions" hlmCard>
+
+    <div class="dashboard-panel__header">
+
+      <div>
+        <span class="dashboard-panel__eyebrow">
+          Histórico
+        </span>
+
+        <h2>Atividade recente</h2>
+      </div>
+
+      <span class="dashboard-panel__count">
+        {{ transactions().length }}
+      </span>
+
+    </div>
+
+    @if (transactions().length > 0) {
+
+      <div class="transactions">
+
+        @for (
+          transaction of transactions();
+          track transaction.id
+        ) {
+
+          <div class="transaction">
+
+            <div
+              class="transaction__indicator"
+              [class.transaction__indicator--debit]="transaction.type === 'DEBIT'"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                @if (transaction.type === 'CREDIT') {
+                  <path d="m7 14 5-5 5 5" />
+                  <path d="M12 9v9" />
+                } @else {
+                  <path d="m7 10 5 5 5-5" />
+                  <path d="M12 15V6" />
+                }
+              </svg>
+            </div>
+
+            <div class="transaction__content">
+              <strong>
+                {{ transactionDescription(transaction) }}
+              </strong>
+
+              <span>
+                {{ formatTransactionDate(transaction.createdAt) }}
+              </span>
+            </div>
+
+            <strong
+              class="transaction__amount"
+              [class.transaction__amount--debit]="transaction.type === 'DEBIT'"
+            >
+              {{ transactionAmount(transaction) }} pts
+            </strong>
+
+          </div>
+
+        }
+
+      </div>
+
+    } @else {
+
+      <div class="dashboard-empty">
+        <div class="dashboard-empty__icon">
+          📊
+        </div>
+
+        <strong>Nenhuma atividade ainda</strong>
+
+        <p>
+          Suas movimentações de pontos aparecerão aqui.
+        </p>
+      </div>
+
+    }
 
   </section>
 
