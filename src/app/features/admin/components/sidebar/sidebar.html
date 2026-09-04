@@ -1,0 +1,51 @@
+<aside class="admin-sidebar">
+  <div class="admin-sidebar__header">
+    <span class="admin-sidebar__logo">V</span>
+
+    <div>
+      <strong>VidaLink</strong>
+      <span>Administração</span>
+    </div>
+  </div>
+
+  <nav class="admin-sidebar__nav" aria-label="Navegação administrativa">
+    <a
+      routerLink="/admin/dashboard"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      Dashboard
+    </a>
+
+    <a
+      routerLink="/admin/submissions"
+      routerLinkActive="active"
+    >
+      Avaliações
+    </a>
+
+    <a
+      routerLink="/admin/rewards"
+      routerLinkActive="active"
+    >
+      Recompensas
+    </a>
+
+    <a
+      routerLink="/admin/users"
+      routerLinkActive="active"
+    >
+      Usuários
+    </a>
+  </nav>
+
+  <div class="admin-sidebar__footer">
+    <a routerLink="/dashboard">
+      ← Voltar ao sistema
+    </a>
+
+    <button type="button" (click)="logout()">
+      Sair
+    </button>
+  </div>
+</aside>

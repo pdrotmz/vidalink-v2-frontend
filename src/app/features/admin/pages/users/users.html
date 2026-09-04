@@ -1,0 +1,171 @@
+<section class="admin-users">
+  <header class="admin-users__header">
+    <div>
+      <span class="admin-users__eyebrow">Administração</span>
+
+      <h1>Usuários</h1>
+
+      <p>
+        Gerencie e consulte os usuários cadastrados no VidaLink.
+      </p>
+    </div>
+  </header>
+
+  @if (errorMessage()) {
+    <div class="admin-users__feedback">
+      <span>{{ errorMessage() }}</span>
+    </div>
+  }
+
+  <section class="admin-users__overview">
+    <article class="stat-card">
+      <span class="stat-card__label">Usuários cadastrados</span>
+
+      @if (loading()) {
+        <span class="stat-card__skeleton"></span>
+      } @else {
+        <strong>{{ users().length }}</strong>
+      }
+
+      <span class="stat-card__description">
+        Total de usuários no sistema
+      </span>
+    </article>
+
+    <article class="stat-card">
+      <span class="stat-card__label">Administradores</span>
+
+      @if (loading()) {
+        <span class="stat-card__skeleton"></span>
+      } @else {
+        <strong>
+          {{ users().filter(user => user.role === 'ADMIN').length }}
+        </strong>
+      }
+
+      <span class="stat-card__description">
+        Usuários com acesso administrativo
+      </span>
+    </article>
+
+    <article class="stat-card">
+      <span class="stat-card__label">Clientes</span>
+
+      @if (loading()) {
+        <span class="stat-card__skeleton"></span>
+      } @else {
+        <strong>
+          {{ users().filter(user => user.role === 'CLIENT').length }}
+        </strong>
+      }
+
+      <span class="stat-card__description">
+        Usuários da plataforma
+      </span>
+    </article>
+  </section>
+
+  <section class="admin-users__content">
+    <div class="section-header">
+      <div>
+        <h2>Usuários cadastrados</h2>
+
+        <p>
+          Consulte as informações dos usuários do VidaLink.
+        </p>
+      </div>
+
+      <div class="users-count">
+        {{ filteredUsers().length }}
+        {{ filteredUsers().length === 1 ? 'usuário' : 'usuários' }}
+      </div>
+    </div>
+
+    <div class="users-toolbar">
+      <div class="users-search">
+        <span class="users-search__icon">⌕</span>
+
+        <input
+          type="search"
+          placeholder="Buscar por nome, e-mail ou CPF..."
+          [value]="searchTerm()"
+          (input)="onSearch($event)"
+        />
+      </div>
+    </div>
+
+    @if (loading()) {
+      <div class="users-table">
+        @for (item of [1, 2, 3, 4, 5]; track item) {
+          <div class="user-row user-row--skeleton">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        }
+      </div>
+    } @else if (filteredUsers().length === 0) {
+      <div class="users-empty">
+        <span class="users-empty__icon">⌕</span>
+
+        @if (searchTerm()) {
+          <h3>Nenhum usuário encontrado</h3>
+
+          <p>
+            Não encontramos usuários para
+            <strong>{{ searchTerm() }}</strong>.
+          </p>
+        } @else {
+          <h3>Nenhum usuário cadastrado</h3>
+
+          <p>
+            Ainda não existem usuários cadastrados no sistema.
+          </p>
+        }
+      </div>
+    } @else {
+      <div class="users-table">
+        <div class="user-row user-row--header">
+          <span>Usuário</span>
+          <span>CPF</span>
+          <span>Perfil</span>
+          <span>Cadastro</span>
+        </div>
+
+        @for (
+          user of filteredUsers();
+          track user.id
+        ) {
+          <div class="user-row">
+            <div class="user-row__user">
+              <span class="user-row__avatar">
+                {{ user.name.charAt(0).toUpperCase() }}
+              </span>
+
+              <div>
+                <strong>{{ user.name }}</strong>
+                <span>{{ user.email }}</span>
+              </div>
+            </div>
+
+            <span class="user-row__cpf">
+              {{ user.cpf }}
+            </span>
+
+            <span
+              class="user-row__role"
+              [class.user-row__role--admin]="user.role === 'ADMIN'"
+            >
+              {{ roleLabel(user.role) }}
+            </span>
+
+            <span class="user-row__date">
+              {{ formatDate(user.createdAt) }}
+            </span>
+          </div>
+        }
+      </div>
+    }
+  </section>
+</section>

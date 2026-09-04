@@ -136,5 +136,106 @@
       </div>
     }
 
+    <section class="assessment__history" hlmCard>
+
+      <div class="assessment__history-header">
+        <div>
+          <span class="assessment__eyebrow">Histórico</span>
+
+          <h2>Minhas avaliações</h2>
+
+          <p>
+            Acompanhe o status dos seus comprovantes enviados.
+          </p>
+        </div>
+
+        <span class="assessment__count">
+          {{ submissions().length }}
+        </span>
+      </div>
+
+      @if (loadingSubmissions()) {
+
+        <div class="assessment__loading">
+          <span>Carregando avaliações...</span>
+        </div>
+
+      } @else if (submissions().length > 0) {
+
+        <div class="assessment__submissions">
+
+          @for (submission of submissions(); track submission.id) {
+
+            <article class="submission">
+
+              <div class="submission__icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"
+                  />
+                  <path d="M14 2v6h6" />
+                </svg>
+              </div>
+
+              <div class="submission__content">
+
+                <strong>Comprovante de doação</strong>
+
+                <span>
+                  Enviado em
+                  {{ submission.sentTime | date:'dd/MM/yyyy HH:mm' }}
+                </span>
+
+              </div>
+
+              <span
+                class="submission__status"
+                [class.submission__status--pending]="submission.status === 'PENDING'"
+                [class.submission__status--approved]="submission.status === 'APPROVED'"
+                [class.submission__status--rejected]="submission.status === 'REJECTED'"
+              >
+                @switch (submission.status) {
+
+                  @case ('PENDING') {
+                    Em análise
+                  }
+
+                  @case ('APPROVED') {
+                    Aprovada
+                  }
+
+                  @case ('REJECTED') {
+                    Rejeitada
+                  }
+
+                }
+              </span>
+
+            </article>
+
+          }
+
+        </div>
+
+      } @else {
+
+        <div class="assessment__empty">
+
+          <div class="assessment__empty-icon">
+            📄
+          </div>
+
+          <strong>Nenhuma avaliação enviada</strong>
+
+          <p>
+            Envie seu primeiro comprovante de doação para começar.
+          </p>
+
+        </div>
+
+      }
+
+    </section>
+
   </section>
 </section>

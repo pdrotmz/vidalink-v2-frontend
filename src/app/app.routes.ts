@@ -7,6 +7,8 @@ import { Marketplace } from './features/marketplace/pages/marketplace/marketplac
 import { AuthenticatedLayout } from './layouts/authenticated-layout/authenticated-layout';
 import { authGuard } from './core/guards/auth-guard';
 import { guestGuard } from './core/guards/guest-guard';
+import { adminGuard } from './core/guards/admin-guard';
+import { AdminLayout } from './layouts/admin-layout/admin-layout';
 
 
 
@@ -34,8 +36,51 @@ export const routes: Routes = [
           import('./features/assessment/pages/assessment/assessment')
             .then(m => m.AssessmentPage),
       },
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./features/user/pages/profile/profile')
+            .then(m => m.Profile),
+},
     ],
   },
+
+    {
+      path: 'admin',
+      component: AdminLayout,
+      canActivate: [adminGuard],
+      children: [
+        {
+          path: 'submissions',
+          loadComponent: () =>
+            import('./features/admin/pages/submissions/submissions')
+              .then(m => m.Submissions),
+      },
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./features/admin/pages/dashboard/dashboard')
+            .then(m => m.Dashboard),
+      },
+      {
+        path: 'rewards',
+        loadComponent: () =>
+          import('./features/admin/pages/rewards/rewards')
+            .then(m => m.Rewards),
+      },
+      {
+        path: 'users',
+        loadComponent: () =>
+          import('./features/admin/pages/users/users')
+            .then(m => m.Users),
+      },
+      {
+        path: '**',
+        redirectTo: '/admin/dashboard',
+      }
+    ],
+  },
+
 
   {
     path: 'login',

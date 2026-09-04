@@ -1,0 +1,174 @@
+<section class="submissions">
+  <header class="submissions__header">
+    <div>
+      <h1>Doações</h1>
+      <p>Gerencie as doações enviadas pelos usuários.</p>
+    </div>
+  </header>
+
+  @if (successMessage()) {
+    <div
+      class="submissions__feedback submissions__feedback--success"
+      role="status"
+    >
+      {{ successMessage() }}
+    </div>
+  }
+
+  @if (errorMessage()) {
+    <div
+      class="submissions__feedback submissions__feedback--error"
+      role="alert"
+    >
+      {{ errorMessage() }}
+    </div>
+  }
+
+  <nav class="submissions__filters" aria-label="Filtrar avaliações">
+    <button
+      type="button"
+      [class.active]="selectedStatus() === 'ALL'"
+      (click)="selectStatus('ALL')"
+    >
+      Todas
+    </button>
+
+    <button
+      type="button"
+      [class.active]="selectedStatus() === 'PENDING'"
+      (click)="selectStatus('PENDING')"
+    >
+      Pendentes
+    </button>
+
+    <button
+      type="button"
+      [class.active]="selectedStatus() === 'APPROVED'"
+      (click)="selectStatus('APPROVED')"
+    >
+      Aprovadas
+    </button>
+
+    <button
+      type="button"
+      [class.active]="selectedStatus() === 'REJECTED'"
+      (click)="selectStatus('REJECTED')"
+    >
+      Rejeitadas
+    </button>
+  </nav>
+
+  @if (loading()) {
+    <section class="submissions__list">
+      @for (item of [1, 2, 3]; track item) {
+        <article class="submission-card submission-card--loading">
+          <div class="submission-card__main">
+            <div class="submission-card__skeleton submission-card__skeleton--id"></div>
+            <div class="submission-card__skeleton submission-card__skeleton--date"></div>
+          </div>
+
+          <div class="submission-card__status"></div>
+
+          <div class="submission-card__actions">
+            <div class="submission-card__skeleton submission-card__skeleton--button"></div>
+            <div class="submission-card__skeleton submission-card__skeleton--button"></div>
+          </div>
+        </article>
+      }
+    </section>
+  } @else if (submissions().length === 0) {
+    <section class="submissions__empty">
+      <div class="submissions__empty-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 5h16v14H4z" />
+          <path d="M8 9h8" />
+          <path d="M8 13h5" />
+        </svg>
+      </div>
+
+      <h2>Nenhuma avaliação encontrada</h2>
+
+      @if (selectedStatus() === 'PENDING') {
+        <p>Não há avaliações pendentes no momento.</p>
+      } @else if (selectedStatus() === 'APPROVED') {
+        <p>Não há avaliações aprovadas.</p>
+      } @else if (selectedStatus() === 'REJECTED') {
+        <p>Não há avaliações rejeitadas.</p>
+      } @else {
+        <p>Ainda não há avaliações enviadas pelos usuários.</p>
+      }
+    </section>
+  } @else {
+    <section class="submissions__list">
+      @for (submission of submissions(); track submission.id) {
+        <article class="submission-card">
+          <div class="submission-card__main">
+            <div class="submission-card__icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M6 3h9l3 3v15H6z" />
+                <path d="M14 3v4h4" />
+                <path d="M9 12h6" />
+                <path d="M9 16h6" />
+              </svg>
+            </div>
+
+            <div class="submission-card__info">
+              <span class="submission-card__label">
+                Usuário
+              </span>
+
+              <strong>
+                {{ submission.idUser }}
+              </strong>
+
+              <span class="submission-card__date">
+                Enviada em {{ formatDate(submission.sentTime) }}
+              </span>
+            </div>
+          </div>
+
+          <span
+            class="submission-card__status"
+            [class.submission-card__status--pending]="submission.status === 'PENDING'"
+            [class.submission-card__status--approved]="submission.status === 'APPROVED'"
+            [class.submission-card__status--rejected]="submission.status === 'REJECTED'"
+          >
+            {{ statusLabel(submission.status) }}
+          </span>
+
+          @if (submission.status === 'PENDING') {
+            <div class="submission-card__actions">
+              <button
+                type="button"
+                class="submission-card__action submission-card__action--reject"
+                [disabled]="processingId() !== null"
+                [attr.aria-busy]="isProcessing(submission)"
+                (click)="reject(submission)"
+              >
+                @if (isProcessing(submission)) {
+                  Processando...
+                } @else {
+                  Rejeitar
+                }
+              </button>
+
+              <button
+                type="button"
+                class="submission-card__action submission-card__action--approve"
+                [disabled]="processingId() !== null"
+                [attr.aria-busy]="isProcessing(submission)"
+                (click)="approve(submission)"
+              >
+                @if (isProcessing(submission)) {
+                  Processando...
+                } @else {
+                  Aprovar
+                }
+              </button>
+            </div>
+          }
+        </article>
+      }
+    </section>
+  }
+</section>

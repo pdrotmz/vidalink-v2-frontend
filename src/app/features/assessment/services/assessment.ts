@@ -21,4 +21,10 @@ export class Assessment {
       formData
     );
   }
+
+  getMySubmissions(userId: string): Observable<Submission[]> {
+    return this.http.get<Submission[]>(
+      `/api/submissions/id/user/${userId}`
+    );
+  }
 }
