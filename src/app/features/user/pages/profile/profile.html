@@ -1,0 +1,94 @@
+<section class="profile">
+
+  <header class="profile__header">
+    <div>
+      <span class="profile__eyebrow">Minha conta</span>
+
+      <h1>Meu perfil</h1>
+
+      <p>
+        Consulte suas informações cadastradas no VidaLink.
+      </p>
+    </div>
+  </header>
+
+  @if (loading()) {
+
+    <section class="profile__card" hlmCard>
+      <div class="profile__loading">
+        <div class="profile__loading-avatar"></div>
+
+        <div class="profile__loading-content">
+          <div class="profile__loading-line profile__loading-line--large"></div>
+          <div class="profile__loading-line"></div>
+        </div>
+      </div>
+    </section>
+
+  } @else if (errorMessage()) {
+
+    <section class="profile__card" hlmCard>
+      <div class="profile__error" role="alert">
+        <div class="profile__error-icon">
+          !
+        </div>
+
+        <div>
+          <strong>Não foi possível carregar o perfil</strong>
+
+          <p>
+            {{ errorMessage() }}
+          </p>
+        </div>
+      </div>
+    </section>
+
+  } @else if (user()) {
+
+    <section class="profile__card" hlmCard>
+
+      <div class="profile__identity">
+
+        <div class="profile__avatar">
+          {{ user()!.name.charAt(0).toUpperCase() }}
+        </div>
+
+        <div class="profile__identity-info">
+          <h2>{{ user()!.name }}</h2>
+
+          <span>{{ roleLabel(user()!.role) }}</span>
+        </div>
+
+      </div>
+
+      <div class="profile__divider"></div>
+
+      <div class="profile__information">
+
+        <div class="profile__field">
+          <span>Nome completo</span>
+          <strong>{{ user()!.name }}</strong>
+        </div>
+
+        <div class="profile__field">
+          <span>E-mail</span>
+          <strong>{{ user()!.email }}</strong>
+        </div>
+
+        <div class="profile__field">
+          <span>CPF</span>
+          <strong>{{ user()!.cpf }}</strong>
+        </div>
+
+        <div class="profile__field">
+          <span>Tipo de conta</span>
+          <strong>{{ roleLabel(user()!.role) }}</strong>
+        </div>
+
+      </div>
+
+    </section>
+
+  }
+
+</section>

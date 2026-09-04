@@ -1,0 +1,4 @@
+export type Badge =
+  | 'FIRST_CONTRIBUTION'
+  | 'CONTRIBUTOR'
+  | 'POINT_COLLECTOR';

@@ -1,0 +1,101 @@
+<aside class="sidebar">
+
+  <div class="sidebar__brand">
+    <span class="sidebar__brand-name">VidaLink</span>
+  </div>
+
+  <nav class="sidebar__nav">
+
+    <a
+      class="sidebar__link"
+      routerLink="/"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path d="M3 11.5 12 4l9 7.5" />
+        <path d="M5.5 10.5V20h13v-9.5" />
+      </svg>
+
+      <span>Home</span>
+    </a>
+
+    <a
+      class="sidebar__link"
+      routerLink="/dashboard"
+      routerLinkActive="active"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <rect x="4" y="4" width="6" height="6" rx="1" />
+        <rect x="14" y="4" width="6" height="6" rx="1" />
+        <rect x="4" y="14" width="6" height="6" rx="1" />
+        <rect x="14" y="14" width="6" height="6" rx="1" />
+      </svg>
+
+      <span>Dashboard</span>
+    </a>
+
+    <a
+      class="sidebar__link"
+      routerLink="/marketplace"
+      routerLinkActive="active"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path d="M4 9h16l-1 11H5L4 9Z" />
+        <path d="M8 9a4 4 0 0 1 8 0" />
+      </svg>
+
+      <span>Marketplace</span>
+    </a>
+
+    <a
+      class="sidebar__link"
+      routerLink="/assessment"
+      routerLinkActive="active"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" />
+        <path d="M8 8h8M8 12h8M8 16h5" />
+      </svg>
+
+      <span>Assessment</span>
+    </a>
+
+  </nav>
+
+  <div class="sidebar__footer">
+
+    <a routerLink="/profile">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="8" r="4" />
+        <path d="M4 21a8 8 0 0 1 16 0" />
+      </svg>
+
+      <span>Perfil</span>
+    </a>
+
+    <button type="button" (click)="logout()">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M9 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4" />
+        <path d="M14 16l4-4-4-4" />
+        <path d="M18 12H9" />
+      </svg>
+
+      <span>Sair</span>
+    </button>
+
+  </div>
+
+</aside>

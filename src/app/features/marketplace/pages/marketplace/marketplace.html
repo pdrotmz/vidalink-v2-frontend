@@ -1,0 +1,148 @@
+<section class="marketplace">
+
+  <header class="marketplace__header">
+    <div>
+      <h1>Marketplace</h1>
+      <p>Troque seus pontos por recompensas.</p>
+    </div>
+
+    <div class="marketplace__points">
+      <span>Seus pontos</span>
+
+      <strong>
+        {{ points()?.balance ?? 0 }} pts
+      </strong>
+    </div>
+  </header>
+
+  @if (successMessage()) {
+    <div
+      class="marketplace__feedback marketplace__feedback--success"
+      role="status"
+    >
+      {{ successMessage() }}
+    </div>
+  }
+
+  @if (errorMessage()) {
+    <div
+      class="marketplace__feedback marketplace__feedback--error"
+      role="alert"
+    >
+      {{ errorMessage() }}
+    </div>
+  }
+
+  @if (loading()) {
+
+    <section class="marketplace__grid">
+
+      @for (item of [1, 2, 3]; track item) {
+        <article
+          class="reward-card reward-card--loading"
+          hlmCard
+        >
+          <div class="reward-card__image"></div>
+
+          <div class="reward-card__content">
+            <div class="reward-card__skeleton reward-card__skeleton--title"></div>
+            <div class="reward-card__skeleton reward-card__skeleton--text"></div>
+            <div class="reward-card__skeleton reward-card__skeleton--button"></div>
+          </div>
+        </article>
+      }
+
+    </section>
+
+  } @else if (rewards().length === 0) {
+
+    <section class="marketplace__empty">
+      <div class="marketplace__empty-icon">
+        <svg
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path d="M4 9h16l-1 11H5L4 9Z" />
+          <path d="M8 9a4 4 0 0 1 8 0" />
+        </svg>
+      </div>
+
+      <h2>Nenhuma recompensa disponível</h2>
+
+      <p>
+        Ainda não há recompensas disponíveis no marketplace.
+      </p>
+    </section>
+
+  } @else {
+
+    <section class="marketplace__grid">
+
+      @for (reward of rewards(); track reward.id) {
+
+        <article
+          class="reward-card"
+          hlmCard
+        >
+
+          <div class="reward-card__image">
+
+        @if (imageUrls()[reward.id]) {
+
+          <img
+            [src]="imageUrls()[reward.id]"
+            [alt]="reward.name"
+          >
+
+        } @else {
+
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path d="M4 9h16l-1 11H5L4 9Z" />
+            <path d="M8 9a4 4 0 0 1 8 0" />
+          </svg>
+
+        }
+
+          </div>
+
+          <div class="reward-card__content">
+
+            <h2>{{ reward.name }}</h2>
+
+            <p>{{ reward.description }}</p>
+
+            <div class="reward-card__footer">
+              <div class="reward-card__price">
+                <strong>{{ reward.pointCost }}</strong>
+                <span>pts</span>
+              </div>
+
+              <button
+                hlmBtn
+                type="button"
+                class="reward-card__redeem"
+                [disabled]="redeemingRewardId() === reward.id"
+                (click)="redeem(reward)"
+              >
+                @if (redeemingRewardId() === reward.id) {
+                  Resgatando...
+                } @else {
+                  Resgatar
+                }
+              </button>
+            </div>
+
+          </div>
+
+        </article>
+
+      }
+
+    </section>
+
+  }
+
+</section>

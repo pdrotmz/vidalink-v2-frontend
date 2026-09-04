@@ -1,0 +1,88 @@
+<section class="admin-dashboard">
+  <header class="admin-dashboard__header">
+    <div>
+      <span class="admin-dashboard__eyebrow">Administração</span>
+      <h1>Dashboard</h1>
+      <p>Visão geral do VidaLink.</p>
+    </div>
+  </header>
+
+  <section class="admin-dashboard__stats">
+    <article class="stat-card">
+      <span class="stat-card__label">Doações pendentes</span>
+      <strong>—</strong>
+      <span class="stat-card__description">
+        Aguardando análise
+      </span>
+    </article>
+
+    <article class="stat-card">
+      <span class="stat-card__label">Doações aprovadas</span>
+      <strong>—</strong>
+      <span class="stat-card__description">
+        Doações aprovadas
+      </span>
+    </article>
+
+    <article class="stat-card">
+      <span class="stat-card__label">Doações rejeitadas</span>
+      <strong>—</strong>
+      <span class="stat-card__description">
+        Doações rejeitadas
+      </span>
+    </article>
+
+    <article class="stat-card">
+      <span class="stat-card__label">Usuários</span>
+      <strong>—</strong>
+      <span class="stat-card__description">
+        Usuários cadastrados
+      </span>
+    </article>
+  </section>
+
+  <section class="admin-dashboard__quick-actions">
+    <div class="section-header">
+      <div>
+        <h2>Ações rápidas</h2>
+        <p>Acesse as principais áreas administrativas.</p>
+      </div>
+    </div>
+
+    <div class="quick-actions">
+      <a routerLink="/admin/submissions" class="quick-action">
+        <span class="quick-action__icon">✓</span>
+
+        <div>
+          <strong>Avaliações</strong>
+          <span>Gerenciar avaliações enviadas.</span>
+        </div>
+
+        <span class="quick-action__arrow">→</span>
+      </a>
+
+      <a routerLink="/admin/rewards" class="quick-action">
+        <span class="quick-action__icon">★</span>
+
+        <div>
+          <strong>Recompensas</strong>
+          <span>Gerenciar recompensas do marketplace.</span>
+        </div>
+
+        <span class="quick-action__arrow">→</span>
+      </a>
+
+      <a routerLink="/admin/users" class="quick-action">
+        <span class="quick-action__icon">♙</span>
+
+        <div>
+          <strong>Usuários</strong>
+          <span>Gerenciar usuários do VidaLink.</span>
+        </div>
+
+        <span class="quick-action__arrow">→</span>
+      </a>
+
+    </div>
+  </section>
+</section>
