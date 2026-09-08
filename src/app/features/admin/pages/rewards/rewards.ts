@@ -132,7 +132,7 @@ export class Rewards implements OnDestroy {
   }
 
   protected imageUrl(reward: Reward): string {
-    return this.imageUrls()[reward.id] ?? '';
+    return reward.image ?? '';
   }
 
   protected statusLabel(reward: Reward): string {
