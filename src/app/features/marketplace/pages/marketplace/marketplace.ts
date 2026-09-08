@@ -33,8 +33,6 @@ export class Marketplace {
   protected readonly successMessage = signal<string | null>(null);
   protected readonly errorMessage = signal<string | null>(null);
 
-  protected readonly imageUrls = signal<Record<string, string>>({});
-
   constructor() {
     this.loadMarketplace();
   }
@@ -44,8 +42,6 @@ export class Marketplace {
       next: (rewards) => {
         this.rewards.set(rewards);
         this.loading.set(false);
-
-        this.loadRewardImages(rewards);
       },
       error: (error) => {
         console.error('Error fetching rewards:', error);
@@ -64,31 +60,6 @@ export class Marketplace {
       error: (error) => {
         console.error('Error fetching user points:', error);
       },
-    });
-  }
-
-  private loadRewardImages(rewards: Reward[]): void {
-    rewards.forEach((reward) => {
-      if (!reward.image) {
-        return;
-      }
-
-      this.rewardService.getRewardImage(reward.id).subscribe({
-        next: (blob) => {
-          const url = URL.createObjectURL(blob);
-
-          this.imageUrls.update((urls) => ({
-            ...urls,
-            [reward.id]: url,
-          }));
-        },
-        error: (error) => {
-          console.error(
-            `Error fetching image for reward ${reward.id}:`,
-            error
-          );
-        },
-      });
     });
   }
 

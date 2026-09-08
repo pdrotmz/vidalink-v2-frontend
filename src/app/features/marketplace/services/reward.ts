@@ -13,11 +13,4 @@ export class RewardService {
     getRewards(): Observable<Reward[]> {
         return this.http.get<Reward[]>(`${environmentProd.apiUrl}/api/rewards`);
     }
-
-    getRewardImage(id: string): Observable<Blob> {
-        return this.http.get(
-        `${environmentProd.apiUrl}/api/rewards/id/${id}/image`,
-        { responseType: 'blob' }
-    );
-  }
 }

@@ -147,25 +147,7 @@ export class Rewards implements OnDestroy {
       next: (rewards) => {
         this.rewards.set(rewards);
         this.loading.set(false);
-
-        rewards.forEach((reward) => {
-          this.rewardAdminService.getImage(reward.id).subscribe({
-            next: (blob) => {
-              const imageUrl = URL.createObjectURL(blob);
-
-              this.imageUrls.update((urls) => ({
-                ...urls,
-                [reward.id]: imageUrl,
-              }));
-            },
-            error: (error) => {
-              console.error(
-                `Error fetching image for reward ${reward.id}:`,
-                error
-              );
-            },
-          });
-        });
+        
       },
       error: (error) => {
         console.error('Error fetching rewards:', error);
@@ -237,26 +219,6 @@ export class Rewards implements OnDestroy {
 
         this.updatingImage.set(false);
         this.selectedImage.set(null);
-
-        const oldImageUrl = this.imageUrls()[reward.id];
-
-        if (oldImageUrl) {
-          URL.revokeObjectURL(oldImageUrl);
-        }
-
-        this.rewardAdminService.getImage(reward.id).subscribe({
-          next: (blob) => {
-            const imageUrl = URL.createObjectURL(blob);
-
-            this.imageUrls.update((urls) => ({
-              ...urls,
-              [reward.id]: imageUrl,
-            }));
-          },
-          error: (error) => {
-            console.error('Error refreshing reward image:', error);
-          },
-        });
       },
       error: (error) => {
         console.error('Error updating reward image:', error);
