@@ -317,14 +317,14 @@
   align-items: center;
   justify-content: center;
 
-  padding: 24px;
+  padding: 2rem;
 
   &__backdrop {
     position: absolute;
     inset: 0;
 
     border: 0;
-    background: rgba(0, 0, 0, 0.65);
+    background: rgba(0, 0, 0, 0.72);
     cursor: pointer;
   }
 
@@ -332,44 +332,109 @@
     position: relative;
     z-index: 1;
 
-    width: min(1100px, 100%);
-    height: min(820px, 90vh);
+    width: min(1050px, 100%);
+    max-height: 88vh;
 
     display: flex;
     flex-direction: column;
 
-    background: #fff;
-    border-radius: 16px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: var(--card);
+
     overflow: hidden;
+
+    box-shadow:
+      0 24px 60px rgba(0, 0, 0, 0.32),
+      0 8px 20px rgba(0, 0, 0, 0.16);
   }
 
   &__header {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 16px;
 
-    padding: 20px 24px;
-    border-bottom: 1px solid #e5e7eb;
+    gap: 1rem;
+
+    padding: 1.25rem 1.5rem;
+
+    border-bottom: 1px solid var(--border);
+    background: var(--card);
+
+    h2 {
+      margin: 0.25rem 0 0.25rem;
+
+      color: var(--foreground);
+
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
+    p {
+      margin: 0;
+
+      color: var(--muted-foreground);
+
+      font-size: 0.8125rem;
+    }
+  }
+
+  &__eyebrow {
+    color: var(--primary);
+
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   &__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
     border: 0;
+    border-radius: 50%;
+
     background: transparent;
-    font-size: 28px;
+    color: var(--muted-foreground);
+
+    font-size: 1.5rem;
+
     cursor: pointer;
+
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+
+    &:hover {
+      background: var(--muted);
+      color: var(--foreground);
+    }
   }
 
   &__document {
-    flex: 1;
-    min-height: 0;
-    background: #f3f4f6;
+    height: 620px;
+    min-height: 420px;
+
+    padding: 1rem;
+
+    background: var(--muted);
   }
 
   &__pdf {
+    display: block;
+
     width: 100%;
     height: 100%;
-    border: 0;
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+
+    background: white;
   }
 
   &__loading,
@@ -379,15 +444,79 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+
+    background: var(--background);
+
+    color: var(--muted-foreground);
+    font-size: 0.875rem;
   }
 
   &__actions {
     display: flex;
     justify-content: flex-end;
-    gap: 12px;
 
-    padding: 16px 24px;
-    border-top: 1px solid #e5e7eb;
+    gap: 0.75rem;
+
+    padding: 1rem 1.5rem;
+
+    border-top: 1px solid var(--border);
+    background: var(--card);
+  }
+
+  &__action {
+    min-width: 110px;
+    min-height: 40px;
+
+    padding: 0.55rem 1rem;
+
+    border-radius: var(--radius);
+
+    font-size: 0.875rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease;
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    &--reject {
+      border: 1px solid var(--destructive);
+
+      background: transparent;
+      color: var(--destructive);
+
+      &:hover:not(:disabled) {
+        background: color-mix(
+          in srgb,
+          var(--destructive) 8%,
+          transparent
+        );
+      }
+    }
+
+    &--approve {
+      border: 1px solid var(--primary);
+
+      background: var(--primary);
+      color: var(--primary-foreground);
+
+      &:hover:not(:disabled) {
+        background: color-mix(
+          in srgb,
+          var(--primary) 90%,
+          black
+        );
+      }
+    }
   }
 }
 
@@ -432,6 +561,27 @@
       }
     }
   }
+
+  .submission-modal {
+  padding: 1rem;
+
+  &__content {
+    max-height: 92vh;
+  }
+
+  &__document {
+    height: 520px;
+    min-height: 350px;
+
+    padding: 0.75rem;
+  }
+
+  &__actions {
+    button {
+      flex: 1;
+    }
+  }
+}
 }
 
 @media (max-width: 500px) {
