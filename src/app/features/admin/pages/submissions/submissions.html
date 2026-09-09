@@ -136,35 +136,123 @@
             {{ statusLabel(submission.status) }}
           </span>
 
-          @if (submission.status === 'PENDING') {
+            @if (submission.status === 'PENDING') {
             <div class="submission-card__actions">
-              <button
-                type="button"
-                class="submission-card__action submission-card__action--reject"
-                [disabled]="processingId() !== null"
-                [attr.aria-busy]="isProcessing(submission)"
-                (click)="reject(submission)"
-              >
-                @if (isProcessing(submission)) {
-                  Processando...
-                } @else {
-                  Rejeitar
-                }
-              </button>
 
               <button
                 type="button"
-                class="submission-card__action submission-card__action--approve"
-                [disabled]="processingId() !== null"
-                [attr.aria-busy]="isProcessing(submission)"
-                (click)="approve(submission)"
+                class="submission-card__action submission-card__action--view"
+                (click)="openReview(submission)"
               >
-                @if (isProcessing(submission)) {
-                  Processando...
-                } @else {
-                  Aprovar
-                }
+                Analisar
               </button>
+
+            </div>
+          }
+
+          @if (selectedSubmission(); as submission) {
+
+            <div
+              class="submission-modal"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="submission-modal-title"
+            >
+
+              <button
+                type="button"
+                class="submission-modal__backdrop"
+                aria-label="Fechar modal"
+                (click)="closeReview()"
+              ></button>
+
+              <section class="submission-modal__content">
+
+                <header class="submission-modal__header">
+
+                  <div>
+                    <span class="submission-modal__eyebrow">
+                      Avaliação
+                    </span>
+
+                    <h2 id="submission-modal-title">
+                      Analisar doação
+                    </h2>
+
+                    <p>
+                      Usuário: {{ submission.idUser }}
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    class="submission-modal__close"
+                    aria-label="Fechar"
+                    (click)="closeReview()"
+                  >
+                    ×
+                  </button>
+
+                </header>
+
+                <div class="submission-modal__document">
+
+                  @if (pdfLoading()) {
+
+                    <div class="submission-modal__loading">
+                      Carregando documento...
+                    </div>
+
+                  } @else if (pdfUrl()) {
+
+                    <iframe
+                      class="submission-modal__pdf"
+                      [src]="pdfUrl()"
+                      title="Documento enviado pelo usuário"
+                    ></iframe>
+
+                  } @else {
+
+                    <div class="submission-modal__error">
+                      Não foi possível carregar o documento.
+                    </div>
+
+                  }
+
+                </div>
+
+                <footer class="submission-modal__actions">
+
+                  <button
+                    type="button"
+                    class="submission-modal__action submission-modal__action--reject"
+                    [disabled]="processingId() !== null"
+                    (click)="reject(submission)"
+                  >
+                    @if (isProcessing(submission)) {
+                      Processando...
+                    } @else {
+                      Rejeitar
+                    }
+                  </button>
+
+                  <button
+                    type="button"
+                    class="submission-modal__action submission-modal__action--approve"
+                    [disabled]="processingId() !== null"
+                    (click)="approve(submission)"
+                  >
+                    @if (isProcessing(submission)) {
+                      Processando...
+                    } @else {
+                      Aprovar
+                    }
+                  </button>
+
+                </footer>
+
+              </section>
+
             </div>
           }
         </article>

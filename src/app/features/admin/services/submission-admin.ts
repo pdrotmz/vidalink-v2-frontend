@@ -20,6 +20,12 @@ export class SubmissionAdminService {
     );
   }
 
+  getFile(id: string): Observable<Blob> {
+    return this.http.get(`${environmentProd.apiUrl}/api/submissions/id/${id}/file`, {
+      responseType: 'blob',
+    });
+  }
+
   approve(id: string): Observable<void> {
     return this.http.patch<void>(
       `${environmentProd.apiUrl}/api/submissions/id/status/${id}/approve`,

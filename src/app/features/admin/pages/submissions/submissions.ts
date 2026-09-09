@@ -5,6 +5,7 @@ import {
   ValidationStatus,
 } from '../../models/submission';
 import { SubmissionAdminService } from '../../services/submission-admin';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-admin-submissions',
@@ -24,6 +25,16 @@ export class Submissions {
   protected readonly successMessage = signal<string | null>(null);
   protected readonly errorMessage = signal<string | null>(null);
 
+  private readonly sanitizer = inject(DomSanitizer);
+
+  protected readonly selectedSubmission = signal<Submission | null>(null);
+
+  protected readonly pdfUrl =signal<SafeResourceUrl | null>(null);
+
+  protected readonly pdfLoading = signal(false);
+
+  private pdfObjectUrl: string | null = null;
+
   constructor() {
     this.loadSubmissions();
   }
@@ -41,6 +52,51 @@ export class Submissions {
     this.loadSubmissionsByStatus(status);
   }
 
+  protected openReview(submission: Submission): void {
+    if (this.pdfObjectUrl) {
+      URL.revokeObjectURL(this.pdfObjectUrl);
+      this.pdfObjectUrl = null;
+    }
+
+    this.pdfUrl.set(null);
+    this.selectedSubmission.set(submission);
+    this.pdfLoading.set(true);
+    this.clearMessages();
+
+    this.submissionAdminService.getFile(submission.id).subscribe({
+      next: (blob) => {
+        this.pdfObjectUrl = URL.createObjectURL(blob);
+
+        this.pdfUrl.set(
+          this.sanitizer.bypassSecurityTrustResourceUrl(
+            this.pdfObjectUrl
+          )
+        );
+
+        this.pdfLoading.set(false);
+      },
+
+      error: (error) => {
+        console.error('Error loading submission PDF:', error);
+
+        this.pdfLoading.set(false);
+        this.errorMessage.set(
+          'Não foi possível carregar o documento.'
+        );
+      },
+    });
+  }
+
+  protected closeReview(): void {
+    if (this.pdfObjectUrl) {
+      URL.revokeObjectURL(this.pdfObjectUrl);
+      this.pdfObjectUrl = null;
+    }
+
+    this.pdfUrl.set(null);
+    this.selectedSubmission.set(null);
+  }
+
   protected approve(submission: Submission): void {
     if (this.processingId()) {
       return;
@@ -52,6 +108,7 @@ export class Submissions {
     this.submissionAdminService.approve(submission.id).subscribe({
       next: () => {
         this.processingId.set(null);
+        this.closeReview();
         this.successMessage.set('Avaliação aprovada com sucesso.');
         this.refreshSubmissions();
       },
@@ -76,6 +133,7 @@ export class Submissions {
     this.submissionAdminService.reject(submission.id).subscribe({
       next: () => {
         this.processingId.set(null);
+        this.closeReview();
         this.successMessage.set('Avaliação rejeitada com sucesso.');
         this.refreshSubmissions();
       },

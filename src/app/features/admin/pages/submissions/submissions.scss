@@ -308,6 +308,89 @@
   }
 }
 
+.submission-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+
+    border: 0;
+    background: rgba(0, 0, 0, 0.65);
+    cursor: pointer;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+
+    width: min(1100px, 100%);
+    height: min(820px, 90vh);
+
+    display: flex;
+    flex-direction: column;
+
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  &__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+
+    padding: 20px 24px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+
+  &__close {
+    border: 0;
+    background: transparent;
+    font-size: 28px;
+    cursor: pointer;
+  }
+
+  &__document {
+    flex: 1;
+    min-height: 0;
+    background: #f3f4f6;
+  }
+
+  &__pdf {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  &__loading,
+  &__error {
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+
+    padding: 16px 24px;
+    border-top: 1px solid #e5e7eb;
+  }
+}
+
 @keyframes submission-skeleton {
   50% {
     opacity: 0.5;
