@@ -1,3 +1,3 @@
 export const environmentProd = {
-  apiUrl: 'https://vidalink-v2-backend.onrender.com',
+  apiUrl: 'https://api.vidalink.pdrotmz.tech',
 };
